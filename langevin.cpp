@@ -37,7 +37,7 @@ void Langevin_Problem::force_calc(double *y)
 	  repulsion= 2*p.strength*dist;
 	}
 	if( p.rep_type== 3 ){
-5	  repulsion= (-3*p.strength)/(dist*dist);
+	  repulsion= (-3*p.strength)/(dist*dist);
 	}
 	if( p.rep_type== 4){
 	  repulsion= (-2*p.strength)/(dist*dist*dist);
@@ -181,5 +181,4 @@ void Langevin_Problem::solve()
 		step_solution ();
 	}while(yi[4] <= 180);
 	return;
-}//S^2=2D(dt)->focker planche
-//SetDirectory[NotebookDirectory[]];
+}
