@@ -43,17 +43,6 @@ void Langevin_Problem::force_calc(double *y)
 	  repulsion= (-2*p.strength)/(dist*dist*dist);
 	}
 
-	//uprime = 5*dist*dist*dist*dist;
-	// uprime = -(pdepth/pmin)*8*(pow(rodivdist,9)
-	//         - pow(rodivdist,5));
-        // uprime = 0;
-	//if( dist < pmin ){
-	//  uprime += -(pdepth/pmin)*8*(pow(rodivdist,9)
-	//			     - pow(rodivdist,5));
-	//}
-	// double uprime = 0.0;
-        // uprime += 0.25*dist;
-	// double uprime = 0.25*dist;
 	uprime= -(pdepth/pmin)*(2*p.power)*(pow(rodivdist,((2*p.power)+1))
 					    -pow(rodivdist,((p.power)+1)))
 	  + repulsion;
@@ -145,22 +134,24 @@ void Langevin_Problem::step_solution ()
 		yn[3]=yi[3]+delta_t*0.5*(k1[3]+k2[3]);
 	       
 		if(sep <= 2){
-		  //double shift2 = yn[2]+sqrt(4-((yn[1]-yn[3])*(yn[1]-yn[3])));
-		  //yn[0]=shift2;
 		  broken=1;
 		}
 		else{
 		  broken=0;
 		}
-		//if(broken==0){
-		yn[4]=yn[4]+delta_t;	
-	        for(int k=0; k<5; ++k){
-		    yi[k]=yn[k];
+		/*
+		 *broken=1 signifies that the beads are occupying the same space.
+		 *if the beads are inside each other, then a new step is chosen
+		 */
+		if(broken==0){
+			yn[4]=yn[4]+delta_t;	
+				for(int k=0; k<5; ++k){
+				yi[k]=yn[k];
 	        }
-		  //}
-		  //	else{
-		  // i=i-1;
-		  // }
+		 }
+		 else{
+			i=i-1;
+		 }
 		  
 	}
 	cout << yi[4] << " "
